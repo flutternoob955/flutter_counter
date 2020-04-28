@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/bloc.dart';
+import 'counter_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,14 +10,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: BlocProvider<CounterBloc>(
-          create: (context) => CounterBloc(),
-          child: MyHomePage(title: 'Flutter Demo Home Page')
+    return BlocProvider(
+      create: (context) => CounterBloc(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        //home: CounterPage(),
+        home: MyHomePage(title: 'Flutter Demo Home Page'),
       ),
     );
   }
@@ -73,6 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
               BlocProvider.of<CounterBloc>(context).add(CounterIncrement());
             },
             tooltip: 'Increment',
+            heroTag: "Increment",
             child: Icon(Icons.add),
           ),
           SizedBox(height: 20,),
@@ -81,7 +84,17 @@ class _MyHomePageState extends State<MyHomePage> {
               BlocProvider.of<CounterBloc>(context).add(CounterDecrement());
             },
             tooltip: 'Decrement',
+            heroTag: "Decrement",
             child: Icon(Icons.remove),
+          ),
+          SizedBox(height: 20,),
+          FloatingActionButton(
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => CounterPage()));
+            },
+            tooltip: 'Open',
+            heroTag: "Open",
+            child: Icon(Icons.home),
           ),
         ],
       ),
